@@ -8,3 +8,4 @@ requirements:
 ### quantum walk
 - [github with simulations of quantum walk](https://github.com/NMcDowall17/quantum_walk/tree/main)
 - [qiskit.circuit.library.CDKMRippleCarryAdder](https://quantum.cloud.ibm.com/docs/en/api/qiskit/qiskit.circuit.library.CDKMRippleCarryAdder)
+- [Modular adder qiskit](https://quantum.cloud.ibm.com/docs/en/api/qiskit/qiskit.circuit.library.ModularAdderGate)
