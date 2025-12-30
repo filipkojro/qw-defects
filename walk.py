@@ -11,9 +11,22 @@ def control_add_one(position_qubits: int) -> QuantumCircuit:
     return qc
 
 class walk_circuit_simpler:
-    def __init__(self, nodes_power, num_steps, start_bits= None, start_phases = None, use_phase_defect=False, defect_step=None, defect_qubit=None, defect_strength=None):
+    def __init__(self, 
+                 nodes_power: int, 
+                 num_steps: int, 
+                 start_bits:str | None = None, 
+                 start_phases: list | None = None, 
+                 coin_phase: int = 0,
+                 use_phase_defect: bool = False, 
+                 defect_step: int | None = None, 
+                 defect_qubit: int | None = None, 
+                 defect_strength: float | None = None):
+        
         self.nodes_power = nodes_power
         self.num_steps = num_steps
+
+        self.coin_phase = coin_phase
+
         self.use_phase_defect = use_phase_defect
         self.defect_step = defect_step
         self.defect_qubit = defect_qubit
@@ -45,6 +58,10 @@ class walk_circuit_simpler:
                 qc.x(q_pos[i])
             
             qc.p(self.start_phases[i], q_pos[i])
+
+        # coin initialization
+        qc.h(q_coin)
+        qc.p(self.coin_phase, q_coin)
 
         for step in range(self.num_steps):
             # coin
