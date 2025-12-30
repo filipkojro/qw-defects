@@ -1,7 +1,10 @@
 from fktools import *
+
 from walk import walk_circuit_simpler
 from qiskit_aer import AerSimulator
 from qiskit_ibm_runtime.fake_provider import FakeMarrakesh
+
+from tqdm import tqdm
 
 simulator_backend = AerSimulator()
 print(f"using {simulator_backend.name} for simulator backend")
@@ -9,11 +12,9 @@ print(f"using {simulator_backend.name} for simulator backend")
 noisy_backend = FakeMarrakesh()
 print(f"using {noisy_backend.backend_name} for noisy backend")
 
-X = []
-y = []
+while True:
 
-for step in range(20):
-
+    # randomizing input
     nodes_power = 3
     num_steps = np.random.randint(0, 24)
 
@@ -22,8 +23,7 @@ for step in range(20):
 
     coin_phase = np.random.rand() * 2 * np.pi
 
-
-
+    # running simulations
     simulator_wcs = walk_circuit_simpler(nodes_power=nodes_power, num_steps=num_steps, start_bits=start_bits, coin_phase=coin_phase)
     noisy_wcs =     walk_circuit_simpler(nodes_power=nodes_power, num_steps=num_steps, start_bits=start_bits, coin_phase=coin_phase)
     
@@ -33,10 +33,14 @@ for step in range(20):
     noisy_wcs.build()
     noisy_probs = noisy_wcs.run(simulator=noisy_backend)
 
-    X.append(noisy_probs)
-    y.append(simulator_probs)
+    # adding to dataset
+    X = np.load("dataset_X.npz")['arr_0']
+    y = np.load("dataset_y.npz")['arr_0']
 
-    np.savez_compressed("dataset_X", np.array(X))
-    np.savez_compressed("dataset_y", np.array(y))
+    X = np.vstack((X, noisy_probs))
+    y = np.vstack((y, simulator_probs))
 
-    print(f"saved: {len(X)}")
+    np.savez_compressed("dataset_X", X)
+    np.savez_compressed("dataset_y", y)
+
+    print(X.shape, y.shape)
