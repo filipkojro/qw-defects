@@ -1,5 +1,4 @@
 venv
 .venv
 __pycache__
-*.npx
-*.npz
+dataset_backup
