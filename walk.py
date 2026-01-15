@@ -57,7 +57,7 @@ class walk_circuit_simpler:
             if bit == "1":
                 qc.x(q_pos[i])
             
-            qc.p(self.start_phases[i], q_pos[i])
+            # qc.p(self.start_phases[i], q_pos[i])
 
         # coin initialization
         qc.h(q_coin)
