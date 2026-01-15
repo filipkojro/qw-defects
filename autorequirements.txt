@@ -78,6 +78,7 @@ pure_eval @ file:///home/conda/feedstock_root/build_artifacts/pure_eval_17335694
 pycparser==2.23
 pydantic==2.12.5
 pydantic_core==2.41.5
+pydot==4.0.1
 Pygments @ file:///home/conda/feedstock_root/build_artifacts/pygments_1750615794071/work
 PyJWT==2.10.1
 pylatexenc==2.10
