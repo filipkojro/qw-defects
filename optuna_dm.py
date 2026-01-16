@@ -40,7 +40,6 @@ def acc_from_hyperparams(trial: optuna.Trial):
     model.compile(
         optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate),
         loss = 'kld',
-        metrics=['acc']
     )
 
     # model learning
@@ -52,10 +51,9 @@ def acc_from_hyperparams(trial: optuna.Trial):
         batch_size = batch_size
     )
 
-    # acc czy loss?
-    loss, accuracy = model.evaluate(X_test, y_test)
+    loss = model.evaluate(X_test, y_test)
 
-    return accuracy
+    return loss
 
 
 # setting to run on GPU
@@ -64,7 +62,7 @@ def acc_from_hyperparams(trial: optuna.Trial):
 tf.device(tf.config.list_logical_devices('CPU')[0].name)
 
 # running hyperparameter optimization
-study = optuna.create_study(direction="maximize")
+study = optuna.create_study(direction="minimize")
 study.optimize(acc_from_hyperparams, n_trials=1, show_progress_bar=True)
 
 print(f"BEST PARAMS: {study.best_params}")
