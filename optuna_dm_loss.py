@@ -60,14 +60,14 @@ def loss_from_hyperparams(trial: optuna.Trial):
         verbose=0
     )
 
-    return dist_overlap
+    return loss
 
 
 # running hyperparameter optimization
 study = optuna.create_study(
-    direction="maximize",
+    direction="minimize",
     storage="sqlite:///db.sqlite3",
-    study_name="denoising_dense",
+    study_name="denoising_dense_loss",
     load_if_exists=True,
 )
 study.optimize(loss_from_hyperparams, n_trials=None, n_jobs=3, show_progress_bar=True)
