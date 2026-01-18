@@ -3,6 +3,7 @@ alembic==1.17.2
 annotated-types==0.7.0
 asttokens @ file:///home/conda/feedstock_root/build_artifacts/asttokens_1763409923949/work
 astunparse==1.6.3
+bottle==0.13.4
 certifi==2025.11.12
 cffi==2.0.0
 charset-normalizer==3.4.4
@@ -63,6 +64,7 @@ nvidia-nvjitlink-cu12==12.9.86
 opt_einsum==3.4.0
 optree==0.18.0
 optuna==4.6.0
+optuna-dashboard==0.20.0
 packaging @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_packaging_1745345660/work
 pandas==2.3.3
 parso @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_parso_1755974222/work

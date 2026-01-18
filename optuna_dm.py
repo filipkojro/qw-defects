@@ -1,7 +1,12 @@
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
 from fktools import *
 import tensorflow as tf
 import sklearn
 import optuna
+from dist_metric import DistributionOverlap
 
 # loading data with same split every time
 X = np.load("dataset_denoising_multiple_X.npz")['arr_0']
@@ -12,7 +17,7 @@ X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y
 def loss_from_hyperparams(trial: optuna.Trial):
 
     # trying numbers using optuna
-    num_layers = trial.suggest_int(name="num_layers", low=0, high=6)
+    num_layers = trial.suggest_int(name="num_layers", low=1, high=6)
 
     layer_size_power = trial.suggest_int(name="layer_size_power", low=3, high=8)
     layer_size = 2**layer_size_power
@@ -40,6 +45,7 @@ def loss_from_hyperparams(trial: optuna.Trial):
     model.compile(
         optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate),
         loss = tf.keras.losses.KLDivergence(),
+        metrics=[DistributionOverlap()]
     )
 
     # model learning
@@ -51,20 +57,21 @@ def loss_from_hyperparams(trial: optuna.Trial):
         batch_size = batch_size
     )
 
-    loss = model.evaluate(X_test, y_test)
+    loss, dist_overlap = model.evaluate(
+        X_test,
+        y_test,
+        verbose=0
+    )
 
-    return loss
+    return dist_overlap
 
-
-# setting to run on GPU
-# if len(tf.config.list_logical_devices('GPU')) > 0:
-#     tf.device(tf.config.list_logical_devices('GPU')[0].name)
-tf.device(tf.config.list_logical_devices('CPU')[0].name)
 
 # running hyperparameter optimization
 study = optuna.create_study(
-    direction="minimize"
+    direction="maximize",
+    storage="sqlite:///db.sqlite3",
+    study_name="denoising_dense"
 )
-study.optimize(loss_from_hyperparams, n_trials=10, show_progress_bar=True)
+study.optimize(loss_from_hyperparams, n_trials=None, n_jobs=-1, show_progress_bar=True)
 
 print(f"BEST PARAMS: {study.best_params}")
