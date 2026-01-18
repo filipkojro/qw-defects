@@ -9,7 +9,7 @@ y = np.load("dataset_denoising_multiple_y.npz")['arr_0']
 
 X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.2, random_state=42)
 
-def acc_from_hyperparams(trial: optuna.Trial):
+def loss_from_hyperparams(trial: optuna.Trial):
 
     # trying numbers using optuna
     num_layers = trial.suggest_int(name="num_layers", low=0, high=6)
@@ -22,7 +22,7 @@ def acc_from_hyperparams(trial: optuna.Trial):
     batch_size_power = trial.suggest_int(name="batch_size_power", low=4, high=8)
     batch_size = 2**batch_size_power
 
-    epochs = trial.suggest_int(name="epochs", low=50, high=500)
+    epochs = trial.suggest_int(name="epochs", low=10, high=100)
 
     batch_size = 1024
 
@@ -39,7 +39,7 @@ def acc_from_hyperparams(trial: optuna.Trial):
 
     model.compile(
         optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate),
-        loss = 'kld',
+        loss = tf.keras.losses.KLDivergence(),
     )
 
     # model learning
@@ -62,7 +62,9 @@ def acc_from_hyperparams(trial: optuna.Trial):
 tf.device(tf.config.list_logical_devices('CPU')[0].name)
 
 # running hyperparameter optimization
-study = optuna.create_study(direction="minimize")
-study.optimize(acc_from_hyperparams, n_trials=1, show_progress_bar=True)
+study = optuna.create_study(
+    direction="minimize"
+)
+study.optimize(loss_from_hyperparams, n_trials=10, show_progress_bar=True)
 
 print(f"BEST PARAMS: {study.best_params}")
