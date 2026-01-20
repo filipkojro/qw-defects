@@ -36,8 +36,8 @@ while True:
     params = np.array([num_steps, int(start_bits, 2), coin_phase], dtype=object)
 
     # adding to dataset
-    X = np.load("dataset_autoenc_X.npz")['arr_0']
-    y = np.load("dataset_autoenc_y.npz", allow_pickle=True)['arr_0']
+    X = np.load(f"dataset_autoenc_{nodes_power}_X.npz")['arr_0']
+    y = np.load(f"dataset_autoenc_{nodes_power}_y.npz", allow_pickle=True)['arr_0']
 
     # X = np.array([simulator_probs])
     # y = np.array([params])
@@ -46,7 +46,7 @@ while True:
     X = np.vstack((X, simulator_probs))
     y = np.vstack((y, params))
 
-    np.savez_compressed("dataset_autoenc_X", X)
-    np.savez_compressed("dataset_autoenc_y", y)
+    np.savez_compressed(f"dataset_autoenc_{nodes_power}_X", X)
+    np.savez_compressed(f"dataset_autoenc_{nodes_power}_y", y)
 
     print(X.shape, y.shape)
