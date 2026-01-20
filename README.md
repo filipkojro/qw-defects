@@ -20,6 +20,10 @@ trying to denoise quantum walk results :)
 - `python=3.11.14`
 - packages from `autorequirements.txt` (automatically generated)
 
+## notes
+
+- [DistributionOverlap](./dist_metric.py) metric for 10000 random distributions each witch 8 nodes gives ≈60% "accuracy" / overlap
+
 ## useful links
 ### quantum walk
 - [github with simulations of quantum walk](https://github.com/NMcDowall17/quantum_walk/tree/main)
