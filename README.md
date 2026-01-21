@@ -22,6 +22,10 @@ trying to denoise quantum walk results :)
 
 ## notes
 
+```bash
+optuna-dashboard sqlite:///db.sqlite3
+```
+
 - [DistributionOverlap](./dist_metric.py) metric for 10000 random distributions each witch 8 nodes gives ≈60% "accuracy" / overlap
 
 ## useful links
