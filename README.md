@@ -8,7 +8,7 @@ trying to denoise quantum walk results :)
 
 - [generate_dataset_autoenc.py](./generate_dataset_autoenc.py) - generator for data used in autoencoder
 
-- [autoencoder_test.ipynb](./autoencoder_test.ipynb) - (in progress) interesting structure in the encoding of 8 node walk
+- [autoencoder_test.ipynb](./autoencoder_test_results.ipynb) - (in progress) interesting structure in the encoding of 8 node walk
 
 - [walk.py](./walk.py) - quantum walk circuit builder and runner
 
