@@ -1,5 +1,7 @@
 trying to denoise quantum walk results :)
 
+[presentation](https://docs.google.com/presentation/d/1esERlkU-WkQ-nfveZ02MEDOiNdjNb0U2i1I-9ltnjSo/edit?usp=sharing)
+
 ## important files
 
 - [generate_dataset_denoising_multiple.py](./generate_dataset_denoising_multiple.py) - generator for data used in denoising
